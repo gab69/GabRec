@@ -6,8 +6,8 @@ import '../style/Contactanos.css';
 // Importar iconos modernos
 import { 
   Mail, Phone, MapPin, Clock, MessageCircle, 
-  Send, CheckCircle, Loader2, Building, Globe,
-  ChevronDown, Facebook, Github, Instagram,
+  Send, CheckCircle, Loader2,
+  ChevronDown, Facebook, Instagram,
   MessageSquare, Briefcase, Store, Coffee,
   Truck, Building2, Home, Wifi
 } from 'lucide-react';
@@ -106,31 +106,31 @@ export const Contactanos: React.FC = () => {
     {
       icon: <Mail size={22} />,
       title: 'Correo Electrónico',
-      value: 'info@gabrec.pe',
-      link: 'mailto:info@gabrec.pe',
+      value: 'gebrielrc6979gmail.com',
+      link: 'mailto:gebrielrc6979gmail.com',
       color: '#3b82f6',
       delay: 0.1
     },
     {
       icon: <Phone size={22} />,
       title: 'Teléfono / WhatsApp',
-      value: '+51 987 654 321',
-      link: 'https://wa.me/51987654321',
+      value: '+51 916 386 651',
+      link: 'https://wa.me/51916386651',
       color: '#25D366',
       delay: 0.2
     },
     {
       icon: <MapPin size={22} />,
       title: 'Oficina Central',
-      value: 'Lima, Perú',
-      link: 'https://maps.google.com/?q=Lima+Peru',
+      value: 'WEB',
+      link: '',
       color: '#ef4444',
       delay: 0.3
     },
     {
       icon: <Clock size={22} />,
       title: 'Horario de Atención',
-      value: 'Lun-Vie: 8:00 AM - 6:00 PM',
+      value: 'Lun-Vie: 8:00 AM - 6:00 PM /n Sab: 8:00 AM - 1:00 PM',
       link: '#',
       color: '#f59e0b',
       delay: 0.4
@@ -142,12 +142,8 @@ export const Contactanos: React.FC = () => {
     'Soporte Técnico',
     'Cotización de Proyecto',
     'Desarrollo de Software',
-    'Sistema de Punto de Venta',
     'Página Web / E-commerce',
-    'Aplicación Móvil',
-    'Redes y Conectividad',
-    'Mantenimiento de Sistemas',
-    'Capacitación y Entrenamiento'
+    'Mantenimiento de Sistemas'
   ];
 
   const servicios = [
@@ -163,7 +159,7 @@ export const Contactanos: React.FC = () => {
   const socialLinks = [
     { icon: <Facebook size={20} />, name: 'Facebook', color: '#1877F2' },
     { icon: <Instagram size={20} />, name: 'Instagram', color: '#E4405F' },
-    { icon: <Github size={20} />, name: 'GitHub', color: '#181717' }
+
   ];
 
   return (
@@ -205,7 +201,7 @@ export const Contactanos: React.FC = () => {
             <div className="info-card">
               <div className="card-header">
                 <h3 className="card-title">
-                  <span className="peru-flag">🇵🇪</span>
+                  
                   Conecta con nuestro equipo
                 </h3>
                 <p className="card-subtitle">
@@ -265,7 +261,7 @@ export const Contactanos: React.FC = () => {
                   {socialLinks.map((social) => (
                     <a
                       key={social.name}
-                      href="#"
+                      href="https://www.facebook.com/profile.php?id=61585909102748"
                       className="social-icon-modern"
                       style={{ '--social-color': social.color } as React.CSSProperties}
                     >
@@ -302,7 +298,7 @@ export const Contactanos: React.FC = () => {
                   <div className="form-header">
                     <h3 className="form-title">
                       <MessageCircle size={24} />
-                      Comienza tu consulta
+                      Comienza tu consulta (EN MANTENIMIENTO)
                     </h3>
                     <p className="form-subtitle">
                       Cuéntanos sobre las necesidades de tu negocio y te ayudaremos a encontrar la mejor solución

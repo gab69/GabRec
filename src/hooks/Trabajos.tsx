@@ -233,7 +233,10 @@ export const Trabajos: React.FC = () => {
             <div 
               key={proyecto.id} 
               className={`proyecto-card ${proyecto.destacado ? 'destacado' : ''} ${cardsInView[index] ? 'visible' : ''}`}
-              ref={el => cardRefs.current[index] = el}
+              // CORRECCIÓN: Cambié esta línea para que no retorne el elemento
+              ref={(el: HTMLDivElement | null) => {
+                cardRefs.current[index] = el;
+              }}
               onClick={() => setProyectoSeleccionado(proyecto)}
               style={{ 
                 transitionDelay: `${index * 100}ms`,

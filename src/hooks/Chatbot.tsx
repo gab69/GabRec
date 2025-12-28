@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import '../style/Chatbot.css';
 import { FiCpu } from 'react-icons/fi';
 import {
@@ -45,39 +45,57 @@ export default function Chatbot() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   /* =========================
-     Datos Mejorados
+     Datos Mejorados con nuevas preguntas
   ========================= */
 
   const allowedQuestions = [
     {
       question: "¿Cuál es su horario de atención?",
-      answer: "Nuestro horario de atención es de lunes a viernes de 9:00 a 18:00 y sábados de 10:00 a 14:00.",
-      icon: "🕐"
+      answer: "Nuestro horario de atención es de lunes a viernes de 8:00 a 18:00 y sábados de 08:00 a 13:00.",
+      icon: "🕐",
+      category: "general"
     },
     {
       question: "¿Dónde están ubicados?",
-      answer: "Estamos ubicados en Av. Principal 1234, Ciudad, País.",
-      icon: "📍"
+      answer: "Actualmente no tenemos una ubicación física, estamos en la web. Nos puede contactar por Facebook o WhatsApp.",
+      icon: "📍",
+      category: "general"
     },
     {
       question: "¿Qué servicios ofrecen?",
-      answer: "Ofrecemos servicios de consultoría, desarrollo de software y soporte técnico.",
-      icon: "💼"
+      answer: "Ofrecemos servicios de consultoría, desarrollo de software, soporte técnico, hosting, dominio y mantenimiento web.",
+      icon: "💼",
+      category: "servicios"
     },
     {
       question: "¿Cómo puedo contactar con soporte?",
-      answer: "Puedes contactar a soporte por teléfono, email o a través de nuestro portal web.",
-      icon: "📞"
+      answer: "Puedes contactar a soporte por teléfono al 916386651, email a: gabrielrc6979@gmail.com, por Facebook en: https://www.facebook.com/profile.php?id=61585909102748 o a través de nuestro portal web.",
+      icon: "📞",
+      category: "general"
     },
     {
-      question: "¿Cuál es su plan más económico?",
-      answer: "Nuestro plan básico comienza en $29.99/mes.",
-      icon: "💰"
+      question: "¿Cuáles son todos sus planes y precios?",
+      answer: "🔹 PLAN BÁSICO – Presencia Digital\n\n💰 Desde S/ 500 – S/ 800\n\nIdeal para emprendedores y negocios pequeños.\n\n✔ Página web tipo Landing Page\n✔ Hasta 4 secciones (Inicio, Servicios, Nosotros, Contacto)\n✔ Diseño moderno y responsive (PC, tablet, celular)\n✔ Formulario de contacto (WhatsApp o correo)\n✔ Dominio y hosting (opcional)\n✔ Entrega rápida (5–7 días)\n\n🔹 PLAN PROFESIONAL – Negocio en Crecimiento\n\n💰 Desde S/ 1,200 – S/ 1,800\n\nPara empresas que buscan mayor impacto y confianza.\n\n✔ Página web corporativa\n✔ Hasta 8 secciones\n✔ Diseño personalizado\n✔ Integración con WhatsApp Business\n✔ Google Maps y redes sociales\n✔ Optimización básica SEO\n✔ Panel autoadministrable (opcional)\n✔ Entrega en 7–12 días\n\n🔹 PLAN EMPRESARIAL – Alta Presencia Online\n\n💰 Desde S/ 2,500 – S/ 4,000\n\nPara empresas consolidadas o proyectos grandes.\n\n✔ Diseño a medida\n✔ Páginas ilimitadas\n✔ Panel administrador completo\n✔ Optimización SEO avanzada\n✔ Integración con APIs / sistemas externos\n✔ Seguridad y rendimiento optimizado\n✔ Soporte técnico por 3 meses\n✔ Capacitación incluida\n\n🔹 PLAN TIENDA VIRTUAL (E-Commerce)\n\n💰 Desde S/ 2,000 – S/ 3,500\n\nPara vender productos o servicios online.\n\n✔ Catálogo de productos\n✔ Carrito de compras\n✔ Gestión de pedidos\n✔ Panel administrador\n✔ Diseño responsive\n✔ Capacitación de uso\n ❌El código fuente NO se incluye automáticamente en los planes normales de desarrollo web.",
+      icon: "📋",
+      category: "planes"
+    },
+    {
+      question: "¿Ofrecen planes de mantenimiento web?",
+      answer: "🔧 PLANES DE MANTENIMIENTO WEB\n\n🔹 PLAN BÁSICO – Soporte Esencial\n\n💰 S/ 100 – S/ 150 / mes\n\nIdeal para páginas informativas o landing pages.\n\n✔ Actualización de textos e imágenes (hasta 2 cambios/mes)\n✔ Copia de seguridad mensual\n✔ Revisión básica de funcionamiento\n✔ Soporte vía WhatsApp\n✔ Monitoreo básico del sitio\n\n🔹 PLAN PROFESIONAL – Mantenimiento Activo\n\n💰 S/ 200 – S/ 300 / mes\n\nPara negocios que dependen de su web.\n\n✔ Cambios de contenido (hasta 5 cambios/mes)\n✔ Copias de seguridad semanales\n✔ Optimización de rendimiento\n✔ Actualizaciones de plugins / sistema\n✔ Seguridad básica\n✔ Soporte prioritario\n✔ Reporte mensual\n\n🔹 PLAN EMPRESARIAL – Gestión Completa\n\n💰 S/ 400 – S/ 600 / mes\n\nPara empresas y tiendas virtuales.\n\n✔ Cambios ilimitados de contenido\n✔ Copias de seguridad diarias\n✔ Seguridad avanzada (firewall, antimalware)\n✔ Optimización SEO continua\n✔ Monitoreo 24/7\n✔ Corrección de errores críticos\n✔ Soporte inmediato\n✔ Reporte detallado mensual\n\n🔹 PLAN E-COMMERCE\n\n💰 S/ 500 – S/ 800 / mes\n\nExclusivo para tiendas virtuales.\n\n✔ Gestión de productos (hasta 20/mes)\n✔ Soporte en pagos y pedidos\n✔ Copias de seguridad diarias\n✔ Seguridad avanzada\n✔ Optimización de velocidad\n✔ Soporte prioritario\n✔ Reporte de ventas básico\n\n🔁 PLAN ANUAL (DESCUENTO)\n\n🎁 1 mes GRATIS contratando 12 meses\n🎁 Prioridad en soporte\n🎁 Ajustes adicionales sin costo\n\n📌 Nota importante:\nEl mantenimiento no incluye rediseños completos ni nuevas funcionalidades mayores.\nEstos se cotizan por separado.",
+      icon: "🔧",
+      category: "mantenimiento"
+    },
+    {
+      question: "¿Ofrecen hosting y dominio?",
+      answer: "💰 Dominio + Hosting + Configuración: S/ 300 – S/ 400",
+      icon: "🌐",
+      category: "hosting"
     },
     {
       question: "¿Aceptan pagos con tarjeta?",
-      answer: "Sí, aceptamos todas las tarjetas principales y también transferencias bancarias.",
-      icon: "💳"
+      answer: "Aceptamos transferencias bancarias a BCP, BBVA, Yape y Plin.",
+      icon: "💳",
+      category: "pagos"
     }
   ];
 
@@ -120,7 +138,7 @@ export default function Chatbot() {
     });
   };
 
-  const findBestMatch = (question: string): { question: string; answer: string; icon: string } | null => {
+  const findBestMatch = (question: string): { question: string; answer: string; icon: string; category: string } | null => {
     const normalized = question.trim().toLowerCase();
     
     // Buscar coincidencia exacta o parcial
@@ -135,13 +153,26 @@ export default function Chatbot() {
     const keywords: Record<string, string> = {
       horario: "¿Cuál es su horario de atención?",
       ubicado: "¿Dónde están ubicados?",
+      ubicación: "¿Dónde están ubicados?",
       servicios: "¿Qué servicios ofrecen?",
       contacto: "¿Cómo puedo contactar con soporte?",
       soporte: "¿Cómo puedo contactar con soporte?",
-      precio: "¿Cuál es su plan más económico?",
-      plan: "¿Cuál es su plan más económico?",
+      precio: "¿Cuáles son todos sus planes y precios?",
+      plan: "¿Cuáles son todos sus planes y precios?",
+      planes: "¿Cuáles son todos sus planes y precios?",
       pagos: "¿Aceptan pagos con tarjeta?",
-      tarjeta: "¿Aceptan pagos con tarjeta?"
+      tarjeta: "¿Aceptan pagos con tarjeta?",
+      mantenimiento: "¿Ofrecen planes de mantenimiento web?",
+      mantener: "¿Ofrecen planes de mantenimiento web?",
+      actualización: "¿Ofrecen planes de mantenimiento web?",
+      hosting: "¿Ofrecen hosting y dominio?",
+      hostinger: "¿Ofrecen hosting y dominio?",
+      dominio: "¿Ofrecen hosting y dominio?",
+      servidor: "¿Ofrecen hosting y dominio?",
+      alojamiento: "¿Ofrecen hosting y dominio?",
+      web: "¿Qué servicios ofrecen?",
+      sitio: "¿Qué servicios ofrecen?",
+      página: "¿Qué servicios ofrecen?"
     };
 
     for (const [keyword, question] of Object.entries(keywords)) {
@@ -184,7 +215,7 @@ export default function Chatbot() {
         sender: 'bot',
         content: match 
           ? match.answer
-          : 'Lo siento, solo puedo responder preguntas específicas. Por favor, selecciona una de las preguntas sugeridas o pregunta sobre horarios, ubicación, servicios, contacto, precios o métodos de pago.',
+          : 'Lo siento, solo puedo responder preguntas específicas. Por favor, selecciona una de las preguntas sugeridas o pregunta sobre: horarios, ubicación, servicios, contacto, planes de precios, mantenimiento web, hosting y dominio, o métodos de pago.',
         time: getCurrentTime()
       };
 
@@ -206,13 +237,12 @@ export default function Chatbot() {
     }, 50);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
-    }
-    if (e.key === 'Escape') {
-      setShowSuggestions(false);
+    } else if (e.key === 'Escape') {
+      setInputMessage('');
     }
   };
 
@@ -319,7 +349,7 @@ export default function Chatbot() {
                       <span className="message-time">{msg.time}</span>
                     </div>
 
-                    <p>{msg.content}</p>
+                    <p className="message-content">{msg.content}</p>
 
                     {msg.sender === 'bot' && msg.id > 1 && (
                       <div className="feedback" role="group" aria-label="Valorar respuesta">
@@ -394,7 +424,7 @@ export default function Chatbot() {
                     ref={inputRef}
                     value={inputMessage}
                     onChange={e => setInputMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
+                    onKeyDown={handleKeyPress}
                     placeholder="Escribe tu pregunta aquí..."
                     aria-label="Escribe tu mensaje"
                     aria-describedby="input-help"
@@ -414,7 +444,7 @@ export default function Chatbot() {
                 <div className="topics-hint">
                   <span className="hint-icon">💡</span>
                   Puedes preguntar sobre: 
-                  <span className="topics-list"> horarios, ubicación, servicios, contacto, precios</span>
+                  <span className="topics-list"> horarios, ubicación, servicios, contacto, planes, mantenimiento, hosting, dominio</span>
                 </div>
               </footer>
             </main>
