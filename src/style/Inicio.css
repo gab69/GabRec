@@ -1,0 +1,465 @@
+/* Variables CSS */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor principal */
+.inicio-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 5% 120px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  top: 20px;
+}
+
+.inicio-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fondo con gradiente animado */
+.inicio-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.gradient-animation {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: var(--primary-gradient);
+  animation: gradientShift 15s ease infinite;
+  opacity: 0.9;
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Partículas */
+.particles-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { transform: translate(-25%, -25%) rotate(0deg); }
+  50% { transform: translate(-20%, -30%) rotate(180deg); }
+}
+
+@keyframes floatParticle {
+  to { transform: translateY(-100vh); }
+}
+
+/* Contenido principal */
+.inicio-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+/* Título con typing effect - CORREGIDO */
+.inicio-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.title-line {
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.typing-container {
+  position: relative;
+  display: inline-block;
+  height: 4.6rem; 
+  width: 700px; 
+  vertical-align: top;
+  overflow: hidden; /* Evita que se salga */
+}
+
+.typed-text {
+  color: #a5b4fc;
+  font-weight: 700;
+  display: inline-block;
+  font-size: 3.5rem; /* Mismo tamaño que el título */
+  line-height: 1.2;
+  min-height: 4.5rem; /* Altura mínima igual al contenedor */
+  white-space: nowrap;
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  background: #a5b4fc;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: text-top;
+  height: 1.2em; /* Altura relativa al texto */
+  margin-top: 0.1em;
+}
+
+.cursor.blinking {
+  animation: blink 0.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Subtítulo */
+.inicio-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+/* Métricas mejoradas */
+.metrics-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.metric-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.metric-card.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.metric-icon {
+  font-size: 2rem;
+}
+
+.metric-content {
+  flex: 1;
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.metric-description {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sección derecha */
+.inicio-right {
+  position: relative;
+}
+
+/* Ventana de código */
+.code-window {
+  background: rgba(17, 25, 40, 0.9);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-effect {
+  backdrop-filter: blur(20px);
+}
+
+.window-header {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.window-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27ca3f; }
+
+.window-title {
+  flex: 1;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.file-icon {
+  margin-right: 8px;
+}
+
+.window-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #27ca3f;
+}
+
+.code-content {
+  padding: 30px;
+}
+
+pre {
+  margin: 0;
+  font-family: 'SF Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #e4e4e4;
+}
+
+.code-footer {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-indicators {
+  display: flex;
+  gap: 10px;
+}
+
+.tech-indicator {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.live-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #27ca3f;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #27ca3f;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Tarjetas flotantes */
+.floating-card {
+  position: absolute;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 200px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.card-1 {
+  top: 10%;
+  right: 5%;
+  animation-delay: 0s;
+}
+
+.floating-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.floating-content h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.floating-content p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .typing-container {
+    width: 450px;
+  }
+  
+  .typed-text {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .inicio-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .inicio-title {
+    font-size: 2.5rem;
+  }
+  
+  .title-line {
+    font-size: 2rem;
+  }
+  
+  .typing-container {
+    width: 400px;
+    height: 3.5rem;
+  }
+  
+  .typed-text {
+    font-size: 2.5rem;
+    min-height: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .inicio-container {
+    padding: 60px 5% 80px;
+  }
+  
+  .metrics-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .typing-container {
+    width: 350px;
+    height: 3rem;
+  }
+  
+  .typed-text {
+    font-size: 2rem;
+    min-height: 3rem;
+  }
+  
+  .floating-card {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 20px 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .typing-container {
+    width: 280px;
+    height: 2.8rem;
+  }
+  
+  .typed-text {
+    font-size: 1.8rem;
+    min-height: 2.8rem;
+  }
+  
+  .inicio-title {
+    font-size: 2rem;
+  }
+  
+  .title-line {
+    font-size: 1.6rem;
+  }
+  
+  .cursor {
+    height: 1em;
+  }
+}
+
+@media (max-width: 360px) {
+  .typing-container {
+    width: 250px;
+  }
+  
+  .typed-text {
+    font-size: 1.6rem;
+  }
+}
