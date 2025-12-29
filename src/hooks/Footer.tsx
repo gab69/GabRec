@@ -1,6 +1,6 @@
 // components/Footer.tsx
 import React, { useEffect, useState } from 'react';
-import { Heart, ArrowUp, Facebook
+import {ArrowUp, Facebook
 } from 'lucide-react';
 import "../style/Foter.css"
 import { BsWhatsapp } from 'react-icons/bs';
