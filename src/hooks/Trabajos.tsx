@@ -69,27 +69,6 @@ const proyectosData: Proyecto[] = [
     estado: 'proximamente',
     destacado: true,
     fecha: '2024-05'
-  },
-  {
-    id: 7,
-    titulo: 'CMS Headless Personalizado',
-    categoria: 'Backend',
-    imagen: '/images/proyectos/cms.jpg',
-    tecnologias: ['Strapi', 'GraphQL', 'Redis', 'AWS S3', 'Webhooks'],
-    enlace: 'https://cms-headless.com',
-    descripcion: 'Sistema de gestión de contenido headless con editor WYSIWYG, multi-tenant y API GraphQL optimizada.',
-    estado: 'proximamente',
-    fecha: '2024-02'
-  },
-  {
-    id: 8,
-    titulo: 'Marketplace NFT',
-    categoria: 'Frontend',
-    imagen: '/images/proyectos/nft-marketplace.jpg',
-    tecnologias: ['React', 'Web3.js', 'Ethers.js', 'IPFS', 'MetaMask'],
-    descripcion: 'Marketplace descentralizado para NFTs con conexión a billeteras crypto y subastas en tiempo real.',
-    estado: 'proximamente',
-    fecha: '2024-06'
   }
 ];
 
@@ -573,14 +552,7 @@ export const Trabajos: React.FC = () => {
                       </button>
                     )}
                     
-                    <button className="modal-contacto">
-                      <svg className="message-icon" viewBox="0 0 24 24" fill="none">
-                        <path d="M21 11.5C21 16.75 16.75 21 11.5 21C10.9 21 10.3 20.9 9.7 20.8C5.9 20 3 16.6 3 12.5V8.5C3 5.5 5.5 3 8.5 3H11.5C16.75 3 21 7.25 21 12.5V11.5Z" stroke="currentColor" strokeWidth="2"/>
-                        <path d="M9 9H15" stroke="currentColor" strokeWidth="2"/>
-                        <path d="M9 13H12" stroke="currentColor" strokeWidth="2"/>
-                      </svg>
-                      Consultar proyecto
-                    </button>
+                    
                   </div>
                 </div>
               </div>

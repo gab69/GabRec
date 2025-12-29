@@ -1,10 +1,9 @@
 // components/Footer.tsx
 import React, { useEffect, useState } from 'react';
-import { Heart, ArrowUp,
-  Github, Linkedin, Twitter,
-  Instagram, Facebook
+import { Heart, ArrowUp, Facebook
 } from 'lucide-react';
 import "../style/Foter.css"
+import { BsWhatsapp } from 'react-icons/bs';
 
 export const Footer: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,15 +28,18 @@ export const Footer: React.FC = () => {
       behavior: 'smooth'
     });
   };
+  // Número de WhatsApp 
+  const whatsappNumber = '916386651';
+  
+  // Mensaje predefinido para WhatsApp
+  const whatsappMessage = encodeURIComponent('¡Hola! Me interesa solicitar una cotización de tus servicios. ¿Podrías proporcionarme más información?');
 
+ 
   
 
   const socialLinks = [
-    { icon: <Github size={20} />, label: 'GitHub', href: '#', color: '#181717' },
-    { icon: <Linkedin size={20} />, label: 'LinkedIn', href: '#', color: '#0A66C2' },
-    { icon: <Twitter size={20} />, label: 'Twitter', href: '#', color: '#1DA1F2' },
-    { icon: <Instagram size={20} />, label: 'Instagram', href: '#', color: '#E4405F' },
-    { icon: <Facebook size={20} />, label: 'Facebook', href: '#', color: '#1877F2' }
+    { icon: < BsWhatsapp size={20} />, label: 'Whatsapp', href:`https://wa.me/${whatsappNumber}?text=${whatsappMessage}` , color: '#181717' },
+    { icon: <Facebook size={20} />, label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61585909102748', color: '#1877F2' }
   ];
 
   return (
@@ -106,12 +108,7 @@ export const Footer: React.FC = () => {
             
           </div>
 
-          <div className="footer-made-with">
-            <span>Hecho con</span>
-            <Heart size={16} className="heart-icon" />
-            <span>en Perú</span>
-            
-          </div>
+         
         </div>
       </div>
 
