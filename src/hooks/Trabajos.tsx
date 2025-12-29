@@ -1,4 +1,3 @@
-// components/Trabajos.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import type { Proyecto } from './types';
 import '../style/Trabajos.css';
@@ -7,15 +6,15 @@ import '../style/Trabajos.css';
 const proyectosData: Proyecto[] = [
   {
     id: 1,
-    titulo: 'E-commerce Moderno React',
+    titulo: 'Marmolito Calisa - Cerámica y Fotografía Conmemorativa',
     categoria: 'Frontend',
-    imagen: '/images/proyectos/ecommerce.jpg',
-    tecnologias: ['React 18', 'TypeScript', 'Tailwind CSS', 'Redux Toolkit'],
-    enlace: 'https://ecommerce-demo.com',
-    descripcion: 'Plataforma de e-commerce completa con carrito de compras, autenticación de usuarios y pasarela de pagos integrada. Diseño responsivo y optimizado para SEO.',
+    imagen: '/images/proyectos/foto.png',
+    tecnologias: ['React', 'TypeScript', 'Git Hub'],
+    enlace: 'https://imagenes-recuerdos.netlify.app/',
+    descripcion: 'sitio web oficial de una empresa que ofrece un producto tangible (cerámica conmemorativa) acompañado de un servicio altamente personalizado y sensible, dirigido a un público en un momento específico de duelo o recuerdo. Diseño responsivo y optimizado para SEO.',
     estado: 'disponible',
     destacado: true,
-    fecha: '2024-01'
+    fecha: '2025-12'
   },
   {
     id: 2,
@@ -24,7 +23,7 @@ const proyectosData: Proyecto[] = [
     imagen: '/images/proyectos/api-rest.jpg',
     tecnologias: ['Node.js', 'Express', 'MongoDB', 'Docker', 'JWT'],
     descripcion: 'Arquitectura de microservicios escalable con autenticación JWT, documentación Swagger y sistema de caché distribuido.',
-    estado: 'disponible',
+    estado: 'proximamente',
     fecha: '2024-02'
   },
   {
@@ -35,7 +34,7 @@ const proyectosData: Proyecto[] = [
     tecnologias: ['Next.js 14', 'Prisma', 'PostgreSQL', 'Chart.js', 'Auth.js'],
     enlace: 'https://dashboard-empresarial.com',
     descripcion: 'Dashboard analítico en tiempo real con múltiples widgets, reportes exportables y panel de administración avanzado.',
-    estado: 'disponible',
+    estado: 'proximamente',
     destacado: true,
     fecha: '2024-03'
   },
@@ -57,7 +56,7 @@ const proyectosData: Proyecto[] = [
     tecnologias: ['Vue 3', 'Pinia', 'Vite', 'OpenWeather API'],
     enlace: 'https://weather-app-demo.com',
     descripcion: 'Aplicación meteorológica con geolocalización, pronóstico extendido y modo oscuro/claro. Optimizada para PWA.',
-    estado: 'disponible',
+    estado: 'proximamente',
     fecha: '2024-01'
   },
   {
@@ -79,7 +78,7 @@ const proyectosData: Proyecto[] = [
     tecnologias: ['Strapi', 'GraphQL', 'Redis', 'AWS S3', 'Webhooks'],
     enlace: 'https://cms-headless.com',
     descripcion: 'Sistema de gestión de contenido headless con editor WYSIWYG, multi-tenant y API GraphQL optimizada.',
-    estado: 'disponible',
+    estado: 'proximamente',
     fecha: '2024-02'
   },
   {
@@ -146,7 +145,7 @@ export const Trabajos: React.FC = () => {
 
   // Reset cards in view cuando cambia el filtro
   useEffect(() => {
-    setCardsInView(Array(proyectosData.length).fill(false));
+    setCardsInView(Array(proyectosFiltrados.length).fill(false));
   }, [filtro]);
 
   // Efecto para modal
@@ -200,6 +199,59 @@ export const Trabajos: React.FC = () => {
     return estado === 'disponible' ? '#10b981' : '#f59e0b';
   };
 
+  // Función para manejar el ref de las cards
+  const setCardRef = (el: HTMLDivElement | null, index: number) => {
+    cardRefs.current[index] = el;
+  };
+
+  // Renderizar imagen - maneja tanto URLs como imports
+  const renderImagen = (proyecto: Proyecto, className: string = '') => {
+    // Si es un string (URL), usar directamente
+    if (typeof proyecto.imagen === 'string') {
+      // Verificar si la imagen existe, si no usar placeholder
+      return (
+        <>
+          <img 
+            src={proyecto.imagen} 
+            alt={proyecto.titulo}
+            className={`${className} imagen-real`}
+            onError={(e) => {
+              // Si la imagen falla, mostrar el placeholder
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              const parent = target.parentElement;
+              if (parent) {
+                const placeholder = parent.querySelector('.imagen-placeholder-fallback') as HTMLElement;
+                if (placeholder) placeholder.style.display = 'block';
+              }
+            }}
+          />
+          <div 
+            className="imagen-placeholder-fallback" 
+            style={{ 
+              background: getGradient(proyecto.id - 1),
+              display: 'none'
+            }}
+          >
+            <div className="proyecto-icono">
+              {proyecto.categoria === 'Frontend' ? '🖥️' : 
+               proyecto.categoria === 'Backend' ? '⚙️' : '🚀'}
+            </div>
+          </div>
+        </>
+      );
+    }
+    
+    // Si es un import/require, usar src
+    return (
+      <img 
+        src={proyecto.imagen} 
+        alt={proyecto.titulo}
+        className={`${className} imagen-real`}
+      />
+    );
+  };
+
   return (
     <section className="trabajos-section" id="trabajos">
       <div className="container">
@@ -233,10 +285,7 @@ export const Trabajos: React.FC = () => {
             <div 
               key={proyecto.id} 
               className={`proyecto-card ${proyecto.destacado ? 'destacado' : ''} ${cardsInView[index] ? 'visible' : ''}`}
-              // CORRECCIÓN: Cambié esta línea para que no retorne el elemento
-              ref={(el: HTMLDivElement | null) => {
-                cardRefs.current[index] = el;
-              }}
+              ref={(el) => setCardRef(el, index)}
               onClick={() => setProyectoSeleccionado(proyecto)}
               style={{ 
                 transitionDelay: `${index * 100}ms`,
@@ -261,6 +310,7 @@ export const Trabajos: React.FC = () => {
                        proyecto.categoria === 'Backend' ? '⚙️' : '🚀'}
                     </div>
                   </div>
+                  {renderImagen(proyecto, 'imagen-overlay')}
                   <div className="proyecto-overlay">
                     <span className="ver-detalles">
                       <svg className="eye-icon" viewBox="0 0 24 24" fill="none">
@@ -311,7 +361,6 @@ export const Trabajos: React.FC = () => {
                         key={techIndex} 
                         className="tecnologia-tag"
                         style={{ 
-                          animationDelay: `${techIndex * 50}ms`,
                           background: `${getCategoriaColor(proyecto.categoria)}15`,
                           color: getCategoriaColor(proyecto.categoria)
                         }}
@@ -434,13 +483,16 @@ export const Trabajos: React.FC = () => {
               
               <div className="modal-body">
                 <div className="modal-imagen-container">
-                  <div 
-                    className="modal-imagen"
-                    style={{ background: getGradient(proyectoSeleccionado.id - 1) }}
-                  >
-                    <div className="modal-icono">
-                      {proyectoSeleccionado.categoria === 'Frontend' ? '💻' : 
-                       proyectoSeleccionado.categoria === 'Backend' ? '⚙️' : '🚀'}
+                  <div className="modal-imagen-wrapper">
+                    {renderImagen(proyectoSeleccionado, 'modal-imagen-real')}
+                    <div 
+                      className="modal-imagen-placeholder"
+                      style={{ background: getGradient(proyectoSeleccionado.id - 1) }}
+                    >
+                      <div className="modal-icono">
+                        {proyectoSeleccionado.categoria === 'Frontend' ? '💻' : 
+                         proyectoSeleccionado.categoria === 'Backend' ? '⚙️' : '🚀'}
+                      </div>
                     </div>
                   </div>
                 </div>

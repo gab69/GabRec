@@ -1,16 +1,25 @@
 // components/Contactanos.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import type { ContactFormData } from './types';
+import emailjs from '@emailjs/browser';
 import '../style/Contactanos.css';
 
 // Importar iconos modernos
 import { 
   Mail, Phone, MapPin, Clock, MessageCircle, 
-  Send, CheckCircle, Loader2,
+  Send, CheckCircle, Loader2, AlertCircle,
   ChevronDown, Facebook, Instagram,
   MessageSquare, Briefcase, Store, Coffee,
   Truck, Building2, Home, Wifi
 } from 'lucide-react';
+
+// Definir tipos
+interface ContactFormData {
+  nombre: string;
+  email: string;
+  telefono: string;
+  asunto: string;
+  mensaje: string;
+}
 
 const initialFormData: ContactFormData = {
   nombre: '',
@@ -20,6 +29,28 @@ const initialFormData: ContactFormData = {
   mensaje: ''
 };
 
+interface ContactInfo {
+  icon: React.ReactNode;
+  title: string;
+  value: string;
+  link: string;
+  color: string;
+  delay: number;
+}
+
+interface Servicio {
+  icon: React.ReactNode;
+  name: string;
+  desc: string;
+}
+
+interface SocialLink {
+  icon: React.ReactNode;
+  name: string;
+  color: string;
+  link: string;
+}
+
 export const Contactanos: React.FC = () => {
   const [formData, setFormData] = useState<ContactFormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,8 +58,23 @@ export const Contactanos: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
   const [charCount, setCharCount] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const maxChars = 500;
   const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Configuración de EmailJS - REEMPLAZA CON TUS DATOS REALES
+  const EMAILJS_CONFIG = {
+    SERVICE_ID: 'service_rw0nokw',
+    TEMPLATE_ID: 'template_tx9t3sp',
+    PUBLIC_KEY: 'M6h1sjrFlj5vvxm6K'
+  };
+
+  // Inicializar EmailJS
+  useEffect(() => {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -60,7 +106,14 @@ export const Contactanos: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    if (name === 'mensaje') {
+    if (name === 'telefono') {
+      // Solo permitir números y limitar a 9 dígitos
+      const numericValue = value.replace(/\D/g, '').slice(0, 9);
+      setFormData(prev => ({
+        ...prev,
+        [name]: numericValue
+      }));
+    } else if (name === 'mensaje') {
       if (value.length <= maxChars) {
         setFormData(prev => ({
           ...prev,
@@ -74,40 +127,148 @@ export const Contactanos: React.FC = () => {
         [name]: value
       }));
     }
+    
+    // Limpiar errores cuando el usuario escribe
+    if (error) setError(null);
   };
 
   const handleFocus = (fieldName: string) => {
     setActiveField(fieldName);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (fieldName: string) => {
     setActiveField(null);
+    setTouchedFields(prev => ({
+      ...prev,
+      [fieldName]: true
+    }));
+  };
+
+  const validateField = (name: keyof ContactFormData, value: string): string | null => {
+    switch (name) {
+      case 'nombre':
+        if (!value.trim()) return 'El nombre es requerido';
+        if (value.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres';
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value.trim())) return 'El nombre solo puede contener letras y espacios';
+        return null;
+        
+      case 'email':
+        if (!value.trim()) return 'El email es requerido';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Por favor, ingresa un email válido';
+        return null;
+        
+      case 'telefono':
+        if (!value.trim()) return 'El teléfono es requerido';
+        if (value.length !== 9) return 'El teléfono debe tener 9 dígitos';
+        if (!/^9\d{8}$/.test(value)) return 'El teléfono debe empezar con 9';
+        return null;
+        
+      case 'asunto':
+        if (!value.trim()) return 'Por favor, selecciona un tipo de consulta';
+        return null;
+        
+      case 'mensaje':
+        if (!value.trim()) return 'El mensaje es requerido';
+        if (value.trim().length < 10) return 'El mensaje debe tener al menos 10 caracteres';
+        if (value.trim().length > maxChars) return `El mensaje no puede exceder ${maxChars} caracteres`;
+        return null;
+        
+      default:
+        return null;
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const errors: string[] = [];
+    
+    (Object.entries(formData) as [keyof ContactFormData, string][]).forEach(([key, value]) => {
+      const fieldError = validateField(key, value);
+      if (fieldError) {
+        errors.push(fieldError);
+      }
+    });
+    
+    if (errors.length > 0) {
+      setError(errors[0]);
+      return false;
+    }
+    
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
-    
-    // Simular envío de formulario
-    await new Promise(resolve => setTimeout(resolve, 1800));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData(initialFormData);
-    setCharCount(0);
-    
-    // Resetear mensaje después de 5 segundos
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+
+    try {
+      // Formatear teléfono para mostrar
+      const telefonoFormateado = `+51 ${formData.telefono.slice(0, 3)} ${formData.telefono.slice(3, 6)} ${formData.telefono.slice(6, 9)}`;
+      
+      const templateParams = {
+        from_name: formData.nombre.trim(),
+        from_email: formData.email,
+        phone: telefonoFormateado,
+        subject: formData.asunto,
+        message: formData.mensaje.trim(),
+        to_email: 'gabrielrc6979@gmail.com',
+        reply_to: formData.email,
+        date: new Date().toLocaleDateString('es-PE', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })
+      };
+
+      console.log('Enviando email con parámetros:', templateParams);
+
+      // Enviar email usando EmailJS
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
+
+      console.log('Respuesta de EmailJS:', response);
+
+      if (response.status === 200) {
+        // Éxito - solo limpiar formulario y mostrar mensaje de éxito
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        setFormData(initialFormData);
+        setCharCount(0);
+        setTouchedFields({});
+        
+        // Resetear después de 8 segundos
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 8000);
+      } else {
+        throw new Error('Error en el envío');
+      }
+
+    } catch (err: any) {
+      console.error('Error enviando email:', err);
+      setError('Hubo un error al enviar el mensaje. Por favor, intenta de nuevo o contáctanos directamente por WhatsApp.');
+      setIsSubmitting(false);
+    }
   };
 
-  const contactInfo = [
+  const contactInfo: ContactInfo[] = [
     {
       icon: <Mail size={22} />,
       title: 'Correo Electrónico',
-      value: 'gebrielrc6979gmail.com',
-      link: 'mailto:gebrielrc6979gmail.com',
+      value: 'gebrielrc6979@gmail.com',
+      link: 'mailto:gebrielrc6979@gmail.com',
       color: '#3b82f6',
       delay: 0.1
     },
@@ -123,30 +284,34 @@ export const Contactanos: React.FC = () => {
       icon: <MapPin size={22} />,
       title: 'Oficina Central',
       value: 'WEB',
-      link: '',
+      link: '#',
       color: '#ef4444',
       delay: 0.3
     },
     {
       icon: <Clock size={22} />,
       title: 'Horario de Atención',
-      value: 'Lun-Vie: 8:00 AM - 6:00 PM /n Sab: 8:00 AM - 1:00 PM',
+      value: 'Lun-Vie: 8:00 AM - 6:00 PM / Sab: 8:00 AM - 1:00 PM',
       link: '#',
       color: '#f59e0b',
       delay: 0.4
     }
   ];
 
-  const tiposConsulta = [
+  const tiposConsulta: string[] = [
     'Consulta General',
     'Soporte Técnico',
     'Cotización de Proyecto',
     'Desarrollo de Software',
     'Página Web / E-commerce',
-    'Mantenimiento de Sistemas'
+    'Mantenimiento de Sistemas',
+    'Sistema POS',
+    'Control de Inventario',
+    'Desarrollo de App Móvil',
+    'Migración a la Nube'
   ];
 
-  const servicios = [
+  const servicios: Servicio[] = [
     { icon: <Store size={18} />, name: 'Restaurantes', desc: 'Sistemas POS y gestión' },
     { icon: <Building2 size={18} />, name: 'Boticas', desc: 'Inventario y ventas' },
     { icon: <Truck size={18} />, name: 'Lancheras', desc: 'Pedidos y delivery' },
@@ -156,10 +321,9 @@ export const Contactanos: React.FC = () => {
     { icon: <Wifi size={18} />, name: 'Otros', desc: 'Soluciones personalizadas' }
   ];
 
-  const socialLinks = [
-    { icon: <Facebook size={20} />, name: 'Facebook', color: '#1877F2' },
-    { icon: <Instagram size={20} />, name: 'Instagram', color: '#E4405F' },
-
+  const socialLinks: SocialLink[] = [
+    { icon: <Facebook size={20} />, name: 'Facebook', color: '#1877F2', link: 'https://www.facebook.com/profile.php?id=61585909102748' },
+    { icon: <Instagram size={20} />, name: 'Instagram', color: '#E4405F', link: '#' },
   ];
 
   return (
@@ -201,7 +365,6 @@ export const Contactanos: React.FC = () => {
             <div className="info-card">
               <div className="card-header">
                 <h3 className="card-title">
-                  
                   Conecta con nuestro equipo
                 </h3>
                 <p className="card-subtitle">
@@ -219,8 +382,8 @@ export const Contactanos: React.FC = () => {
                     rel="noopener noreferrer"
                     style={{ 
                       animationDelay: `${item.delay}s`,
-                      '--channel-color': item.color
-                    } as React.CSSProperties}
+                      ['--channel-color' as any]: item.color
+                    }}
                   >
                     <div className="channel-icon" style={{ backgroundColor: `${item.color}20` }}>
                       {item.icon}
@@ -261,9 +424,11 @@ export const Contactanos: React.FC = () => {
                   {socialLinks.map((social) => (
                     <a
                       key={social.name}
-                      href="https://www.facebook.com/profile.php?id=61585909102748"
+                      href={social.link}
                       className="social-icon-modern"
-                      style={{ '--social-color': social.color } as React.CSSProperties}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ ['--social-color' as any]: social.color }}
                     >
                       {social.icon}
                     </a>
@@ -281,10 +446,10 @@ export const Contactanos: React.FC = () => {
                   <div className="success-icon-wrapper">
                     <CheckCircle size={48} className="success-icon" />
                   </div>
-                  <h3 className="success-title">¡Consulta enviada!</h3>
+                  <h3 className="success-title">¡Consulta enviada exitosamente!</h3>
                   <p className="success-message">
-                    Te contactaremos dentro de las próximas 2 horas para ofrecerte 
-                    una solución personalizada para tu negocio.
+                    Hemos recibido tu consulta y te contactaremos dentro de las próximas 2 horas.
+                    También te hemos enviado un correo de confirmación.
                   </p>
                   <button 
                     onClick={() => setIsSubmitted(false)}
@@ -298,18 +463,30 @@ export const Contactanos: React.FC = () => {
                   <div className="form-header">
                     <h3 className="form-title">
                       <MessageCircle size={24} />
-                      Comienza tu consulta (EN MANTENIMIENTO)
+                      Comienza tu consulta
                     </h3>
                     <p className="form-subtitle">
                       Cuéntanos sobre las necesidades de tu negocio y te ayudaremos a encontrar la mejor solución
                     </p>
                   </div>
 
-                  <form className="modern-form" onSubmit={handleSubmit}>
+                  {error && (
+                    <div className="error-alert">
+                      <AlertCircle size={20} />
+                      <span>{error}</span>
+                    </div>
+                  )}
+
+                  <form 
+                    ref={formRef}
+                    className="modern-form" 
+                    onSubmit={handleSubmit}
+                    noValidate
+                  >
                     <div className="form-grid">
                       <div className="form-group-modern">
                         <label className={`form-label-modern ${activeField === 'nombre' ? 'active' : ''}`}>
-                          Nombre completo
+                          Nombre completo *
                         </label>
                         <div className="input-wrapper">
                           <input
@@ -318,18 +495,24 @@ export const Contactanos: React.FC = () => {
                             value={formData.nombre}
                             onChange={handleChange}
                             onFocus={() => handleFocus('nombre')}
-                            onBlur={handleBlur}
-                            className="input-modern"
+                            onBlur={() => handleBlur('nombre')}
+                            className={`input-modern ${touchedFields.nombre && validateField('nombre', formData.nombre) ? 'input-error' : ''}`}
                             placeholder="Ej: Juan Pérez"
                             required
+                            minLength={3}
+                            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+"
+                            title="Solo letras y espacios, mínimo 3 caracteres"
                           />
                           <div className="input-border"></div>
                         </div>
+                        {touchedFields.nombre && validateField('nombre', formData.nombre) && (
+                          <div className="field-error">{validateField('nombre', formData.nombre)}</div>
+                        )}
                       </div>
 
                       <div className="form-group-modern">
                         <label className={`form-label-modern ${activeField === 'email' ? 'active' : ''}`}>
-                          Email
+                          Email *
                         </label>
                         <div className="input-wrapper">
                           <input
@@ -338,18 +521,21 @@ export const Contactanos: React.FC = () => {
                             value={formData.email}
                             onChange={handleChange}
                             onFocus={() => handleFocus('email')}
-                            onBlur={handleBlur}
-                            className="input-modern"
+                            onBlur={() => handleBlur('email')}
+                            className={`input-modern ${touchedFields.email && validateField('email', formData.email) ? 'input-error' : ''}`}
                             placeholder="ejemplo@negocio.pe"
                             required
                           />
                           <div className="input-border"></div>
                         </div>
+                        {touchedFields.email && validateField('email', formData.email) && (
+                          <div className="field-error">{validateField('email', formData.email)}</div>
+                        )}
                       </div>
 
                       <div className="form-group-modern">
                         <label className={`form-label-modern ${activeField === 'telefono' ? 'active' : ''}`}>
-                          Teléfono / WhatsApp
+                          Teléfono / WhatsApp *
                         </label>
                         <div className="input-wrapper with-prefix">
                           <div className="input-prefix">+51</div>
@@ -359,18 +545,25 @@ export const Contactanos: React.FC = () => {
                             value={formData.telefono}
                             onChange={handleChange}
                             onFocus={() => handleFocus('telefono')}
-                            onBlur={handleBlur}
-                            className="input-modern"
-                            placeholder="987 654 321"
+                            onBlur={() => handleBlur('telefono')}
+                            className={`input-modern ${touchedFields.telefono && validateField('telefono', formData.telefono) ? 'input-error' : ''}`}
+                            placeholder="987654321"
+                            pattern="9[0-9]{8}"
+                            title="Debe empezar con 9 y tener 9 dígitos"
                             required
+                            maxLength={9}
                           />
                           <div className="input-border"></div>
                         </div>
+                        {touchedFields.telefono && validateField('telefono', formData.telefono) && (
+                          <div className="field-error">{validateField('telefono', formData.telefono)}</div>
+                        )}
+                        <div className="input-hint">Ingresa 9 dígitos, empezando con 9 (ej: 987654321)</div>
                       </div>
 
                       <div className="form-group-modern">
                         <label className={`form-label-modern ${activeField === 'asunto' ? 'active' : ''}`}>
-                          Tipo de consulta
+                          Tipo de consulta *
                         </label>
                         <div className="select-wrapper">
                           <select
@@ -378,13 +571,13 @@ export const Contactanos: React.FC = () => {
                             value={formData.asunto}
                             onChange={handleChange}
                             onFocus={() => handleFocus('asunto')}
-                            onBlur={handleBlur}
-                            className="select-modern"
+                            onBlur={() => handleBlur('asunto')}
+                            className={`select-modern ${touchedFields.asunto && validateField('asunto', formData.asunto) ? 'input-error' : ''}`}
                             required
                           >
                             <option value="">Selecciona tipo de consulta</option>
                             {tiposConsulta.map((consulta, index) => (
-                              <option key={index} value={consulta.toLowerCase().replace(/\s+/g, '-')}>
+                              <option key={index} value={consulta}>
                                 {consulta}
                               </option>
                             ))}
@@ -392,12 +585,15 @@ export const Contactanos: React.FC = () => {
                           <ChevronDown size={20} className="select-arrow" />
                           <div className="input-border"></div>
                         </div>
+                        {touchedFields.asunto && validateField('asunto', formData.asunto) && (
+                          <div className="field-error">{validateField('asunto', formData.asunto)}</div>
+                        )}
                       </div>
                     </div>
 
                     <div className="form-group-modern">
                       <label className={`form-label-modern ${activeField === 'mensaje' ? 'active' : ''}`}>
-                        Descríbenos tu necesidad
+                        Descríbenos tu necesidad *
                       </label>
                       <div className="textarea-wrapper">
                         <textarea
@@ -405,17 +601,22 @@ export const Contactanos: React.FC = () => {
                           value={formData.mensaje}
                           onChange={handleChange}
                           onFocus={() => handleFocus('mensaje')}
-                          onBlur={handleBlur}
-                          className="textarea-modern"
+                          onBlur={() => handleBlur('mensaje')}
+                          className={`textarea-modern ${touchedFields.mensaje && validateField('mensaje', formData.mensaje) ? 'input-error' : ''}`}
                           placeholder="Cuéntanos sobre tu negocio, qué problemas enfrentas y qué solución estás buscando..."
                           rows={6}
                           required
+                          minLength={10}
+                          maxLength={maxChars}
                         />
                         <div className="textarea-border"></div>
                         <div className={`textarea-counter ${charCount > maxChars * 0.8 ? 'textarea-limit-warning' : ''} ${charCount >= maxChars ? 'textarea-limit-error' : ''}`}>
                           {charCount}/{maxChars}
                         </div>
                       </div>
+                      {touchedFields.mensaje && validateField('mensaje', formData.mensaje) && (
+                        <div className="field-error">{validateField('mensaje', formData.mensaje)}</div>
+                      )}
                       <div className="textarea-hint">
                         Ej: "Tengo un restaurante y necesito un sistema para controlar inventario y ventas..."
                       </div>
@@ -425,7 +626,7 @@ export const Contactanos: React.FC = () => {
                       <div className="privacy-note">
                         <input type="checkbox" id="privacy" required />
                         <label htmlFor="privacy">
-                          Acepto la política de privacidad y el tratamiento de mis datos
+                          Acepto la política de privacidad y el tratamiento de mis datos *
                         </label>
                       </div>
                       
@@ -446,6 +647,10 @@ export const Contactanos: React.FC = () => {
                           </>
                         )}
                       </button>
+                      
+                      <p className="response-time-note">
+                        * Te responderemos en menos de 2 horas hábiles
+                      </p>
                     </div>
                   </form>
                 </>
@@ -457,3 +662,5 @@ export const Contactanos: React.FC = () => {
     </section>
   );
 };
+
+export default Contactanos;

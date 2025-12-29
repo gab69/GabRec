@@ -1,10 +1,4 @@
-/* Variables CSS */
-:root {
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 5px 20px rgba(0, 0, 0, 0.1);
-}
+
 
 /* Contenedor principal */
 .inicio-container {
@@ -86,13 +80,13 @@
 .inicio-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  max-width: 1400px;
+  gap: 60px;
+  max-width: 1600px;
   margin: 0 auto;
   align-items: center;
 }
 
-/* Título con typing effect - CORREGIDO */
+/* Título con typing effect */
 .inicio-title {
   font-size: 3.5rem;
   font-weight: 800;
@@ -116,16 +110,16 @@
   height: 4.6rem; 
   width: 700px; 
   vertical-align: top;
-  overflow: hidden; /* Evita que se salga */
+  overflow: hidden;
 }
 
 .typed-text {
   color: #a5b4fc;
   font-weight: 700;
   display: inline-block;
-  font-size: 3.5rem; /* Mismo tamaño que el título */
+  font-size: 3.5rem;
   line-height: 1.2;
-  min-height: 4.5rem; /* Altura mínima igual al contenedor */
+  min-height: 4.5rem;
   white-space: nowrap;
 }
 
@@ -136,7 +130,7 @@
   margin-left: 2px;
   animation: blink 1s infinite;
   vertical-align: text-top;
-  height: 1.2em; /* Altura relativa al texto */
+  height: 1.2em;
   margin-top: 0.1em;
 }
 
@@ -163,6 +157,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  margin-top: 40px;
 }
 
 .metric-card {
@@ -176,6 +171,13 @@
   gap: 15px;
   opacity: 0;
   transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(165, 180, 252, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .metric-card.fade-in-up {
@@ -184,6 +186,7 @@
 
 .metric-icon {
   font-size: 2rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 .metric-content {
@@ -195,11 +198,13 @@
   font-weight: 600;
   color: white;
   margin-bottom: 4px;
+  letter-spacing: 0.5px;
 }
 
 .metric-description {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
 }
 
 @keyframes fadeInUp {
@@ -209,161 +214,237 @@
   }
 }
 
-/* Sección derecha */
-.inicio-right {
+/* Carrusel Moderno */
+.carousel-modern-container {
   position: relative;
-}
-
-/* Ventana de código */
-.code-window {
-  background: rgba(17, 25, 40, 0.9);
-  border-radius: 20px;
+  background: rgba(17, 25, 40, 0.8);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-effect {
-  backdrop-filter: blur(20px);
-}
-
-.window-header {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.window-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.dot.red { background: #ff5f56; }
-.dot.yellow { background: #ffbd2e; }
-.dot.green { background: #27ca3f; }
-
-.window-title {
-  flex: 1;
-  font-family: 'SF Mono', monospace;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.file-icon {
-  margin-right: 8px;
-}
-
-.window-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: #27ca3f;
-}
-
-.code-content {
+  box-shadow: var(--modern-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(30px);
   padding: 30px;
 }
 
-pre {
-  margin: 0;
-  font-family: 'SF Mono', monospace;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #e4e4e4;
-}
-
-.code-footer {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 15px 20px;
+.carousel-indicator-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.tech-indicators {
-  display: flex;
-  gap: 10px;
-}
-
-.tech-indicator {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.8rem;
+.slide-progress {
+  flex: 1;
+  height: 4px;
   background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-right: 20px;
 }
 
-.live-preview {
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #a5b4fc, #667eea);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.slide-count {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
   font-size: 0.9rem;
-  color: #27ca3f;
+  font-weight: 500;
 }
 
-.live-dot {
-  width: 8px;
-  height: 8px;
-  background: #27ca3f;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
+.current-slide {
+  color: #a5b4fc;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+.divider {
+  color: rgba(255, 255, 255, 0.4);
 }
 
-/* Tarjetas flotantes */
-.floating-card {
-  position: absolute;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  max-width: 200px;
-  animation: float 6s ease-in-out infinite;
-}
-
-.card-1 {
-  top: 10%;
-  right: 5%;
-  animation-delay: 0s;
-}
-
-.floating-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.floating-content h4 {
-  margin: 0 0 5px 0;
-  font-size: 0.9rem;
-  color: white;
-}
-
-.floating-content p {
-  margin: 0;
-  font-size: 0.8rem;
+.total-slides {
   color: rgba(255, 255, 255, 0.6);
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(2deg); }
+/* Wrapper del carrusel */
+.carousel-modern-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  height: 400px;
+}
+
+.carousel-modern-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+}
+
+.carousel-modern-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide-image-modern-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.slide-image-modern {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.carousel-modern-slide:hover .slide-image-modern {
+  transform: scale(1.05);
+}
+
+.image-gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  pointer-events: none;
+}
+
+/* Controles flotantes */
+.floating-controls {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.floating-btn {
+  background:transparent;
+
+  border: 1px solid rgba(255, 255, 255, 0);
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+.floating-btn:hover {
+  background: rgba(193, 197, 221, 0.815);
+  border-color: #a5b4fc;
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.control-arrow {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.floating-btn:hover .control-arrow {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+.floating-next:hover .control-arrow {
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+/* Indicadores modernos */
+.modern-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modern-indicator {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.indicator-dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.modern-indicator:hover .indicator-dot {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.3);
+}
+
+.modern-indicator.active .indicator-dot {
+  background: #a5b4fc;
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(165, 180, 252, 0.5);
+}
+
+.modern-indicator.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(165, 180, 252, 0.3);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
 }
 
 /* Responsive */
@@ -374,6 +455,10 @@ pre {
   
   .typed-text {
     font-size: 3rem;
+  }
+  
+  .carousel-modern-wrapper {
+    height: 350px;
   }
 }
 
@@ -400,6 +485,15 @@ pre {
     font-size: 2.5rem;
     min-height: 3.5rem;
   }
+  
+  .carousel-modern-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .carousel-modern-wrapper {
+    height: 300px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -421,12 +515,17 @@ pre {
     min-height: 3rem;
   }
   
-  .floating-card {
-    position: relative;
-    top: auto;
-    right: auto;
-    margin: 20px 0;
-    max-width: 100%;
+  .carousel-modern-wrapper {
+    height: 250px;
+  }
+  
+  .floating-controls {
+    padding: 0 10px;
+  }
+  
+  .floating-btn {
+    width: 48px;
+    height: 48px;
   }
 }
 
@@ -452,6 +551,19 @@ pre {
   .cursor {
     height: 1em;
   }
+  
+  .carousel-modern-container {
+    padding: 20px;
+  }
+  
+  .carousel-modern-wrapper {
+    height: 220px;
+  }
+  
+  .carousel-indicator-top {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -461,5 +573,13 @@ pre {
   
   .typed-text {
     font-size: 1.6rem;
+  }
+  
+  .carousel-modern-wrapper {
+    height: 200px;
+  }
+  
+  .modern-indicators {
+    gap: 8px;
   }
 }

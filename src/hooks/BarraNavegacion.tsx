@@ -19,6 +19,15 @@ export const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
   // Determinar qué logo usar
   const logoUrl = logoPersonalizado || logo;
 
+  // Número de WhatsApp 
+  const whatsappNumber = '916386651';
+  
+  // Mensaje predefinido para WhatsApp
+  const whatsappMessage = encodeURIComponent('¡Hola! Me interesa solicitar una cotización de tus servicios. ¿Podrías proporcionarme más información?');
+
+  // URL de WhatsApp
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
   // Efecto para detectar tamaño de pantalla
   useEffect(() => {
     const checkMobile = () => {
@@ -133,6 +142,12 @@ export const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
     }
   };
 
+  // Función para abrir WhatsApp
+  const openWhatsApp = () => {
+    setMenuOpen(false); // Cerrar menú si está abierto en móvil
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <nav 
       ref={navRef}
@@ -142,12 +157,11 @@ export const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
         {/* Logo */}
         <div className="navbar-logo" onClick={handleLogoClick}>
           <img 
-                src={logoUrl} 
-                alt="GabReC Logo" 
-                className="logo-image"
-                onError={handleImageError}
-              />
-         
+            src={logoUrl} 
+            alt="GabReC Logo" 
+            className="logo-image"
+            onError={handleImageError}
+          />
         </div>
         
         {/* Menú Hamburguesa */}
@@ -185,7 +199,7 @@ export const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
             <div className="navbar-cta-mobile">
               <button 
                 className="cta-button"
-                onClick={() => handleNavClick('contactanos')}
+                onClick={openWhatsApp} // Cambiado a openWhatsApp
               >
                 <span>Contactar ahora</span>
                 <svg className="arrow-icon" viewBox="0 0 24 24" fill="none">
@@ -201,7 +215,7 @@ export const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
           <div className="navbar-cta">
             <button 
               className="cta-button"
-              onClick={() => handleNavClick('contactanos')}
+              onClick={openWhatsApp} // Cambiado a openWhatsApp
             >
               <span>Solicitar cotización</span>
               <svg className="arrow-icon" viewBox="0 0 24 24" fill="none">

@@ -24,7 +24,7 @@
   left: 0;
   right: 0;
   height: var(--navbar-height);
-  z-index: 1000;
+  z-index: 10;
   transition: all var(--transition-speed) ease;
   background: var(--navbar-bg);
   backdrop-filter: var(--backdrop-blur);
