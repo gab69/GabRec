@@ -24,27 +24,27 @@ export const Inicio = () => {
   const slides = [
     {
       id: 1,
-      image: "https://scontent.fjau2-1.fna.fbcdn.net/v/t39.30808-6/607148937_122094352173196970_3797314280014319203_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=VXPZK9Mpti8Q7kNvwHZ6W5-&_nc_oc=AdmKL_9sb0WCmUFcC3EojP38xO5Cuzr6lLfMrPbR7fGrXocp6BGrpxO2f54OCnlmEmk&_nc_zt=23&_nc_ht=scontent.fjau2-1.fna&_nc_gid=XNJc3QI_iONm-7iFngI8MQ&oh=00_AfnhxzQES8M3RiI8B8lk8EYV6Tlph8ENbgnZpf-JWYbGQA&oe=695788E6",
+      image: "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       alt: "Dashboard de análisis de datos"
     },
     {
       id: 2,
-      image: "https://scontent.fjau2-1.fna.fbcdn.net/v/t39.30808-6/605477999_122094352155196970_1092624188631968336_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=eo7O92BsIRUQ7kNvwH4TUSp&_nc_oc=AdkjOtXbVHC1ef1pm5_M4s9fU6ez8uihntuU_tWdl7L7eqlNonn68nMeD4Tr371uXqw&_nc_zt=23&_nc_ht=scontent.fjau2-1.fna&_nc_gid=IoaTDPjwUZmhRqGvHFQx3g&oh=00_Afl16hiu2kW6VlYtu7bDcxJ_EDI6svf3uV9ivg-7Ii155w&oe=6957847E",
+      image: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       alt: "Plataforma empresarial"
     },
     {
       id: 3,
-      image: "https://scontent.fjau2-1.fna.fbcdn.net/v/t39.30808-6/605361812_122094352161196970_1582839969906940991_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=PRnqi5xJ0EwQ7kNvwEsPZqb&_nc_oc=Adnst19bfzf2iZJnT1W0BBAUAXz5J8qQz9fNy_7OwVN_w2P6PdRqmtjQRqxnoqWaw6I&_nc_zt=23&_nc_ht=scontent.fjau2-1.fna&_nc_gid=oURfuHfjhqtHxtnKxaemkA&oh=00_Afn6Ak73oZJLvdVGM3iW_WoMetV30AVLHWJsQ7gLXbwTEw&oe=6957760D",
+      image: "https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       alt: "Aplicación móvil"
     },
     {
       id: 4,
-      image: "https://scontent.fjau2-1.fna.fbcdn.net/v/t39.30808-6/605374840_122094352167196970_1683474565002244233_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Lwz6dYZoUaoQ7kNvwF_kP5l&_nc_oc=AdlQBYLH-fuBxtbcem7f6xVFkaiMXqTOuX1lzZwQgktStqcOgHhMVW8Ps-4beaIndCA&_nc_zt=23&_nc_ht=scontent.fjau2-1.fna&_nc_gid=LN1wPD_fCANpVhyzSTHOYg&oh=00_AfnAHf5xerNL94ux-bzNwCUxLfgtk2P3L7DVVq9bk2ikCw&oe=695778EE",
+      image: "https://media.istockphoto.com/id/1759628359/photo/the-designer-team-is-designing-the-uxui-system-to-make-the-uxui-system-work-well-on-new.jpg?s=1024x1024&w=is&k=20&c=xiKM8kuYZGLcYLkNq7ZbwU4sMKNO1ZCfzSCx40WCFtU=",
       alt: "Sistema en la nube"
     },
     {
       id: 5,
-      image: "https://scontent.fjau2-1.fna.fbcdn.net/v/t39.30808-6/605339349_122094352143196970_2383439480304664096_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=DGCn9Sr75AIQ7kNvwElJ_Mp&_nc_oc=AdlvlgUVjRknvjRx7BoDyF2wWPMwlCSWUWNk1Ys15Doy4lHxCdMTp3AIhklNPP6nmlg&_nc_zt=23&_nc_ht=scontent.fjau2-1.fna&_nc_gid=RYGT6FL3P1C0SBwpzGg00Q&oh=00_AflZdy2UTuJSp_X7U4sQwYAnZL-npCNlIo0_rqsbqms9cg&oe=695779DC",
+      image: "https://images.pexels.com/photos/16129728/pexels-photo-16129728.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       alt: "Interfaz moderna"
     }
   ];
